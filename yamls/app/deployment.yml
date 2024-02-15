@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+  labels:
+    appType: web 
+spec:
+  selector:
+    matchLabels:
+      app: myapp
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: myapp
+        appType: web
+    spec:
+      containers:
+        - name: myapp
+          image: myregistry/myapp:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          securityContext:
+            privileged: true             
+      imagePullSecrets:
+        - name: myregistry-secret
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 0

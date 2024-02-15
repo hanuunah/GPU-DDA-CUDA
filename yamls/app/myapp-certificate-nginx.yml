@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: myapp-nginx
+spec:
+  # Use this tls secret in the ingress
+  secretName: myapp-nginx-tls
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+  dnsNames:
+    # Use this DNS name in ingress
+    - "myapp-nginx.com"

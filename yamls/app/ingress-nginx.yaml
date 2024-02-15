@@ -1,0 +1,29 @@
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: myapp
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "myapp"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "7200"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "7200"  
+    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+    cert-manager.io/cluster-issuer: "letsencrypt"
+    kubernetes.io/ingress.class: nginx  
+spec:
+  tls:
+    - hosts:
+        - myapp-nginx.com
+      secretName: myapp-nginx-tls
+  rules:
+    - host: myapp-nginx.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: myapp-service
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix

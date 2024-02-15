@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: myapp-traefik
+spec:
+  # Use this tls secret in the ingress
+  secretName: myapp-traefik-tls
+  issuerRef:
+    name: letsencrypt-traefik
+    kind: ClusterIssuer
+  dnsNames:
+    # Use this DNS name in ingress
+    - "myapp-traefik.com"
